@@ -10,4 +10,12 @@ import lombok.Setter;
 public class Spot {
     private String spotId;
     private String spotName;
+    public Spot() {
+
+    }
+    public Spot(String spotName) {
+        this.spotName = spotName;
+
+    }
+    public void setSpotName(String spotName) {this.spotName = spotName;}
 }
