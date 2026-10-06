@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 public class Spot {
     private String spotId;
     private String spotName;
