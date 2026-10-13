@@ -1,31 +1,29 @@
 package edu.elon.NearU.models;
 import java.net.URI;
+import java.sql.SQLOutput;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 import com.google.maps.model.LatLng;
+import com.google.maps.model.AddressComponent;
+import com.google.maps.model.AddressComponentType;
 
 
 public class Location {
-    private float latitude;
-    private float longitude;
-    private String city;
-    private String state;
-    private String zipcode;
-    private String address;
-    private String country;
+    private double latitude;
+    private double longitude;
+    private LocationAddress locationAddress = new LocationAddress();
 
-    public Location(float latitude, float longitude) {
+    public Location(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.address = "";
-        this.city = "";
-        this.country = "";
-        this.zipcode = "";
-        this.state = "";
+        locateAddressFromLatLong(this.latitude,this.longitude);
 
     }
-    public String[] locateAddressFromLatLong(float latitude, float longitude) {
+    public String[] locateAddressFromLatLong(double latitude, double longitude) {
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyCBxEsba86SZbGG0XuFfiAbgHb4cxCHwUc")
                 .build();
@@ -34,8 +32,37 @@ public class Location {
 
             LatLng location = new LatLng(latitude, longitude);
             GeocodingResult[] results = GeocodingApi.reverseGeocode(context, location).await();
-            for(GeocodingResult res : results) {
-                System.out.println(res.formattedAddress);
+
+            GeocodingResult firstResult = results[0];
+
+
+            // 1. Set the full formatted address
+            locationAddress.setAddress(firstResult.formattedAddress);
+
+            // 2. Loop through address components to extract city, state, zip, and country
+            if (firstResult.addressComponents != null) {
+                for (AddressComponent component : firstResult.addressComponents) {
+                    if (component.types != null) {
+                        for (AddressComponentType type : component.types) {
+                            switch (type) {
+                                case LOCALITY:
+                                    locationAddress.setCity(component.longName);
+                                    break;
+                                case ADMINISTRATIVE_AREA_LEVEL_1:
+                                    locationAddress.setState(component.longName); // State
+                                    break;
+                                case POSTAL_CODE:
+                                    locationAddress.setZipcode(component.longName);
+                                    break;
+                                case COUNTRY:
+                                    locationAddress.setCountry(component.longName);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
             }
 
 
@@ -45,7 +72,9 @@ public class Location {
             // Clean up threads and HTTP resources when done
             context.shutdown();
         }
+
     return null;
     }
 
 }
+
