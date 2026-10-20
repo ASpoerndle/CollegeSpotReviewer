@@ -25,4 +25,9 @@ public class LocationAddress {
     public String getAddress() {
         return this.address;
     }
+    public String getCity() {return this.city;}
+    public String getState() {return this.state;}
+    public String getZipcode(){return this.zipcode;}
+    public String getCountry() {return this.country;}
+
 }

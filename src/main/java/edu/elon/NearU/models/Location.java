@@ -21,8 +21,15 @@ public class Location {
         this.latitude = latitude;
         this.longitude = longitude;
         locateAddressFromLatLong(this.latitude,this.longitude);
-
     }
+    public String getAddress() {
+        return this.locationAddress.getAddress();
+    }
+    public String getCity() {return this.locationAddress.getCity();}
+    public String getState() {return this.locationAddress.getState();}
+    public String getZipcode(){return this.locationAddress.getZipcode();}
+    public String getCountry() {return this.locationAddress.getCountry();}
+
     public String[] locateAddressFromLatLong(double latitude, double longitude) {
         GeoApiContext context = new GeoApiContext.Builder()
                 .apiKey("AIzaSyCBxEsba86SZbGG0XuFfiAbgHb4cxCHwUc")
