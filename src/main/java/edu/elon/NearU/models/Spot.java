@@ -11,11 +11,15 @@ import lombok.Setter;
 public class Spot {
     private String spotId;
     private String spotName;
+    private Location location;
     public Spot() {
         this.spotId = generateID();
     }
-    public Spot(String spotName) {
-        this.spotName = spotName;
+    public Spot(String spotName, double latitude, double longitude) {
+        super();
+        setSpotName(this.spotName);
+        location = new Location(latitude,longitude);
+
 
     }
     public void setSpotName(String spotName) {this.spotName = spotName;}
