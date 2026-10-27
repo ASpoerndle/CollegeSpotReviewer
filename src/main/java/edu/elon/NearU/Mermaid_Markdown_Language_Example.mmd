@@ -1,0 +1,52 @@
+---
+config:
+  theme: redux-color
+  look: neo
+---
+classDiagram
+direction BT
+
+
+ class Review {
+
+private String userName
+private String reviewTitle
+private String reviewDescription
+private double rating
+private Collage collage;
+public void setRating(double rating)
+}
+class Location {
+	private double latitude
+	private double longitude
+	private LocationAddress locationAddress
+	public String[] locateAddressFromLatLong(double latitude, double longitude)
+}
+class LocationAddress {
+	private String city
+	private String state
+	private String zipcode
+	private String address
+	private String country
+}
+class University {
+    private Long id
+	private String name
+	private String domain
+	private Location location
+}
+
+class Spot {
+	private String spotId
+	private String spotName
+	private Location location
+	public void generateID()
+	public void setSpotName(String spotName)
+}
+	 %%PowerUp --|> Entity : extends
+    LocationAddress --> Location
+    %%AnimationController --> CollisionHandler
+    Review --> Spot
+    Location --> Spot
+
+    %%Slowable <|.. Ball : implements
