@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NearUApplication {
 
 	public static void main(String[] args) {
-		Location loc = new Location(37.419857, -122.078827);
-		System.out.println(loc.getAddress());
+//		Location loc = new Location(37.419857, -122.078827);
+//		System.out.println(loc.getAddress());
 		SpringApplication.run(NearUApplication.class, args);
 	}
 
